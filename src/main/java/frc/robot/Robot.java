@@ -40,7 +40,6 @@ public class Robot extends TimedRobot {
 
   //define the controller (PS4) and a new drive stick
   private final PS4Controller drive_controller = new PS4Controller(0);
-  private final GenericHID drive_stick = new GenericHID(0);
 
   public Robot() {
     SendableRegistry.addChild(m_robotDrive, mgroup_left);
@@ -60,6 +59,8 @@ public class Robot extends TimedRobot {
     // Drive with arcade drive.
     // That means that the Y axis drives forward
     // and backward, and the X turns left and right.
-    m_robotDrive.arcadeDrive(-drive_stick.getRawAxis(0), -drive_stick.getRawAxis(1));
+    // m_robotDrive.arcadeDrive(-drive_controller.getLeftY(), -drive_controller.getLeftX());
+    m_robotDrive.tankDrive(-drive_controller.getLeftY(), -drive_controller.getRightY());
+
   }
 }
