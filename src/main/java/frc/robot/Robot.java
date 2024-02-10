@@ -4,13 +4,7 @@
 
 package frc.robot;
 
-import frc.robot.Constants.MotorConstants;
-import frc.robot.Constants.OperatorConstants;
 import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj.drive.DifferentialDrive;
-import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
-import com.revrobotics.CANSparkMax;
-import com.revrobotics.CANSparkLowLevel.MotorType;
 
 /**
  * This is a demo program showing the use of the DifferentialDrive class. Runs the motors with
