@@ -5,6 +5,7 @@
 package frc.robot;
 
 import edu.wpi.first.util.sendable.SendableRegistry;
+import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.PS4Controller;
 import edu.wpi.first.wpilibj.TimedRobot;
@@ -34,8 +35,12 @@ public class Robot extends TimedRobot {
   //generate the motor group for the right motors
   private final MotorControllerGroup mgroup_right = new MotorControllerGroup(m_rightMotor_front, m_rightMotor_rear);
 
+  //generate the differential drive 
   private final DifferentialDrive m_robotDrive = new DifferentialDrive(mgroup_right::set, mgroup_left::set);
+
+  //define the controller (PS4) and a new drive stick
   private final PS4Controller drive_controller = new PS4Controller(0);
+  private final GenericHID drive_stick = new GenericHID(0);
 
   public Robot() {
     SendableRegistry.addChild(m_robotDrive, mgroup_left);
@@ -55,6 +60,6 @@ public class Robot extends TimedRobot {
     // Drive with arcade drive.
     // That means that the Y axis drives forward
     // and backward, and the X turns left and right.
-    m_robotDrive.arcadeDrive(-m_stick.getY(), -m_stick.getX());
+    m_robotDrive.arcadeDrive(-drive_stick.getRawAxis(0), -drive_stick.getRawAxis(1));
   }
 }
