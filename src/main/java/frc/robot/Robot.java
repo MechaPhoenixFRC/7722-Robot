@@ -11,6 +11,8 @@ import edu.wpi.first.wpilibj.PS4Controller;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
+import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
@@ -38,7 +40,7 @@ public class Robot extends TimedRobot {
   private final DifferentialDrive m_robotDrive = new DifferentialDrive(mgroup_right::set, mgroup_left::set);
 
   //define the controller (PS4) and a new drive stick
-  private final PS4Controller drive_controller = new PS4Controller(OperatorConstants.kDriverControllerPort);
+  private final CommandXboxController drive_controller = new CommandXboxController(OperatorConstants.kDriverControllerPort);
 
   public Robot() {
     SendableRegistry.addChild(m_robotDrive, mgroup_left);
