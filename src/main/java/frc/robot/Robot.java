@@ -4,14 +4,13 @@
 
 package frc.robot;
 
+import frc.robot.Constants.MotorConstants;
+import frc.robot.Constants.OperatorConstants;
 import edu.wpi.first.util.sendable.SendableRegistry;
-import edu.wpi.first.wpilibj.GenericHID;
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.PS4Controller;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
-
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
@@ -22,15 +21,15 @@ import com.revrobotics.CANSparkLowLevel.MotorType;
 public class Robot extends TimedRobot {
   
   //define the motors and their device ID + motor type for the left motors
-  private final CANSparkMax m_leftMotor_front = new CANSparkMax(4, MotorType.kBrushless);
-  private final CANSparkMax m_leftMotor_rear = new CANSparkMax(5, MotorType.kBrushless);
+  private final CANSparkMax m_leftMotor_front = new CANSparkMax(MotorConstants.kLMotorFront, MotorType.kBrushless);
+  private final CANSparkMax m_leftMotor_rear = new CANSparkMax(MotorConstants.kLMotorRear, MotorType.kBrushless);
 
   //generate the motor group for left motors
   private final MotorControllerGroup mgroup_left = new MotorControllerGroup(m_leftMotor_front, m_leftMotor_rear);
 
   //define the motors and their device ID + motor type for the right motors
-  private final CANSparkMax m_rightMotor_front = new CANSparkMax(6, MotorType.kBrushless);
-  private final CANSparkMax m_rightMotor_rear = new CANSparkMax(7, MotorType.kBrushless);
+  private final CANSparkMax m_rightMotor_front = new CANSparkMax(MotorConstants.kRMotorFront, MotorType.kBrushless);
+  private final CANSparkMax m_rightMotor_rear = new CANSparkMax(MotorConstants.kRMotorRear, MotorType.kBrushless);
 
   //generate the motor group for the right motors
   private final MotorControllerGroup mgroup_right = new MotorControllerGroup(m_rightMotor_front, m_rightMotor_rear);
@@ -39,7 +38,7 @@ public class Robot extends TimedRobot {
   private final DifferentialDrive m_robotDrive = new DifferentialDrive(mgroup_right::set, mgroup_left::set);
 
   //define the controller (PS4) and a new drive stick
-  private final PS4Controller drive_controller = new PS4Controller(0);
+  private final PS4Controller drive_controller = new PS4Controller(OperatorConstants.kDriverControllerPort);
 
   public Robot() {
     SendableRegistry.addChild(m_robotDrive, mgroup_left);
