@@ -36,6 +36,7 @@ public class Drive extends SubsystemBase {
     // gearbox is constructed, you might have to invert the left side instead.
     m_left_leader.restoreFactoryDefaults();
     m_left_leader.setIdleMode(IdleMode.kBrake);
+    m_left_leader.setInverted(true);
     m_left_leader.burnFlash();
     
     m_left_follower.restoreFactoryDefaults();
@@ -60,9 +61,7 @@ public class Drive extends SubsystemBase {
   }
 
   public void teleopDrive(double x, double y) {
-
     m_robotDrive.arcadeDrive(x, y);
-    
   }
 
 }
