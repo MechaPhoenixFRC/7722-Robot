@@ -14,26 +14,25 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.Constants.MotorConstants;
 import frc.robot.Constants.OperatorConstants;
+import edu.wpi.first.math.filter.SlewRateLimiter;
+
+// SlewRateLimiter filter = new SlewRateLimiter(0.5);
 
 public class Drive extends SubsystemBase {
 
-  //define the motors and their device ID + motor type for the left motors
   private final CANSparkMax m_left_leader = new CANSparkMax(MotorConstants.kLMotorFront, MotorType.kBrushless);
   private final CANSparkMax m_left_follower = new CANSparkMax(MotorConstants.kLMotorRear, MotorType.kBrushless);
 
-  //define the motors and their device ID + motor type for the right motors
   private final CANSparkMax m_right_leader = new CANSparkMax(MotorConstants.kRMotorFront, MotorType.kBrushless);
   private final CANSparkMax m_right_follower = new CANSparkMax(MotorConstants.kRMotorRear, MotorType.kBrushless);
 
-  //generate the differential drive 
   private final DifferentialDrive m_robotDrive = new DifferentialDrive(m_left_leader, m_right_leader);
 
-  /** Creates a new Drive. */
-  public Drive() {
+  private final SlewRateLimiter m_slewRateLimiterX = new SlewRateLimiter(0.5);
+  private final SlewRateLimiter m_slewRateLimiterY = new SlewRateLimiter(0.5);
 
-    // We need to invert one side of the drivetrain so that positive voltages
-    // result in both sides moving forward. Depending on how your robot's
-    // gearbox is constructed, you might have to invert the left side instead.
+
+  public Drive() {
     m_left_leader.restoreFactoryDefaults();
     m_left_leader.setIdleMode(IdleMode.kBrake);
     m_left_leader.setInverted(true);
@@ -57,11 +56,17 @@ public class Drive extends SubsystemBase {
 
   @Override
   public void periodic() {
-    // This method will be called once per scheduler run
+
   }
 
   public void teleopDrive(double x, double y) {
-    m_robotDrive.arcadeDrive(x, y);
+
+    double limitedX = m_slewRateLimiterX.calculate(x);
+    double limitedY = m_slewRateLimiterY.calculate(y);
+
+   
+    m_robotDrive.arcadeDrive(limitedX, limitedY);
+    // m_robotDrive.arcadeDrive(x, y);
   }
 
 }
