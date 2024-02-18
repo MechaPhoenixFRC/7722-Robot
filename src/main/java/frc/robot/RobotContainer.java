@@ -4,30 +4,43 @@
 
 package frc.robot;
 
+import com.pathplanner.lib.auto.AutoBuilder;
+
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.Commands;
-import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
-import frc.robot.Constants.OperatorConstants;
-import frc.robot.subsystems.Drive;
+import frc.robot.Constants.IOConstants;
+import frc.robot.subsystems.Drivetrain;
 
 public class RobotContainer {
+  private final Drivetrain m_drivetrain;
 
-   // The robot's subsystems and commands are defined here...
-  private final Drive m_drive = new Drive();
+  private final SendableChooser<Command> m_autoChooser;
 
-  //define the controller (PS4) and a new drive stick
-  private final CommandXboxController drive_controller = new CommandXboxController(OperatorConstants.kDriverControllerPort);
-
+  private final CommandXboxController m_driverController;
   public RobotContainer() {
+    m_drivetrain = new Drivetrain();
+
+    m_autoChooser = AutoBuilder.buildAutoChooser();
+    SmartDashboard.putData("Auto Chooser", m_autoChooser);
+
+    m_driverController = new CommandXboxController(IOConstants.kDriverControllerPort);
+
     configureBindings();
   }
 
   private void configureBindings() {
-    m_drive.setDefaultCommand(Commands.run(() -> m_drive.teleopDrive(-drive_controller.getLeftY(), drive_controller.getLeftX()), m_drive));
+    m_drivetrain.setDefaultCommand(
+      m_drivetrain.teleopDrive(
+        () -> m_driverController.getLeftY(),
+        () -> m_driverController.getRightX(),
+        () -> m_driverController.rightBumper().getAsBoolean()
+      )
+    );
   }
 
   public Command getAutonomousCommand() {
-    return Commands.print("No autonomous command configured");
+    return m_autoChooser.getSelected();
   }
 }
