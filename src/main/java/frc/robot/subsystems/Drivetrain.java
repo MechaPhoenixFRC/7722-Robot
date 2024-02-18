@@ -72,29 +72,30 @@ public class Drivetrain extends SubsystemBase {
 
         m_rightEncoders = m_rightMotor.getEncoder();
       
+
         m_driveSlewLimiter = new SlewRateLimiter(0.5);
 
         m_robotDrive = new DifferentialDrive(m_leftMotor, m_rightMotor);
-        m_robotDrive.setSafetyEnabled(false);
+        m_robotDrive.setSafetyEnabled(false); // If you dont do this your robot will disable after a while of not sending the motors commands
 
-        m_navx = new AHRS(SPI.Port.kMXP);
+        m_navx = new AHRS(SPI.Port.kMXP); // Creates a new NavX instance that is on your RoboRio MXP port
 
-        m_odometry = new DifferentialDriveOdometry(
+        m_odometry = new DifferentialDriveOdometry( // Odometry tracks your robots position in space, you can see this with a Field2d
             getHeading(),
             m_leftEncoders.getPosition(),
             m_rightEncoders.getPosition()
         );
 
 
-        AutoBuilder.configureRamsete(
-            this::getPose,
-            this::resetPose,
-            this::getChassisSpeeds,
-            this::driveByChassisSpeeds,
-            new ReplanningConfig(),
+        AutoBuilder.configureRamsete( // Configuring PathPlannerLib, Autobuilder handles manipulating your robot from the Pathplanner JSON files it creates 
+            this::getPose, // Gets your robots position in space (odometry)
+            this::resetPose, // Resets your odometry 
+            this::getChassisSpeeds, // Gets the velocity of your robot 
+            this::driveByChassisSpeeds, // Drive your robot from input velocities
+            new ReplanningConfig(), 
             () -> {
-                Optional<Alliance> alliance = DriverStation.getAlliance();
-                if (alliance.isPresent()) {
+                Optional<Alliance> alliance = DriverStation.getAlliance(); // This gets your alliance set in the FRC Driver Station, if you're Red 
+                if (alliance.isPresent()) {                                // it will flip the input paths if its Blue it will not flip the paths.
                     return alliance.get() == DriverStation.Alliance.Red;
                 }
                 return false;
@@ -105,7 +106,7 @@ public class Drivetrain extends SubsystemBase {
 
     @Override
     public void periodic() {
-        m_odometry.update(
+        m_odometry.update( // Every periodic cycle you update your odometry
             getHeading(), 
             m_leftEncoders.getPosition(),
             m_rightEncoders.getPosition()
@@ -113,11 +114,11 @@ public class Drivetrain extends SubsystemBase {
     }
 
     public Command teleopDrive(DoubleSupplier speed, DoubleSupplier rot, BooleanSupplier speedLimiter) {
-        return run(() -> {
-            double xSpeed = -MathUtil.applyDeadband(m_driveSlewLimiter.calculate(speed.getAsDouble()), Constants.IOConstants.kDriverDeadband);
-            double zRotation = -MathUtil.applyDeadband(m_driveSlewLimiter.calculate(rot.getAsDouble()), Constants.IOConstants.kDriverDeadband);
-
-            if (speedLimiter.getAsBoolean()) {
+        return run(() -> { // This is a Command factory that uses a lambda that you feed into your CommandXboxController
+            double xSpeed = -MathUtil.applyDeadband(m_driveSlewLimiter.calculate(speed.getAsDouble()), Constants.IOConstants.kDriverDeadband); // Deadband battles stick drift and
+            double zRotation = -MathUtil.applyDeadband(m_driveSlewLimiter.calculate(rot.getAsDouble()), Constants.IOConstants.kDriverDeadband); // adds a area on your joystick 
+                                                                                                                                                // that's "dead" or ignored
+            if (speedLimiter.getAsBoolean()) { // If speedLimiter is true then divide the output to your motors for more precise movements when needed
                 xSpeed = xSpeed / IOConstants.kSpeedLimiter;
                 zRotation = zRotation / IOConstants.kSpeedLimiter;
             }
@@ -126,20 +127,20 @@ public class Drivetrain extends SubsystemBase {
         });
     }
 
-    public Command followPath(PathPlannerPath path) {
+    public Command followPath(PathPlannerPath path) { // This follows an inputed PathPlannerPath with your AutoBuilder
         return AutoBuilder.followPath(path);
     }
 
-    public void driveByChassisSpeeds(ChassisSpeeds speeds) {        
+    public void driveByChassisSpeeds(ChassisSpeeds speeds) { // Drive your robot with a ChassisSpeeds    
         m_leftMotor.set(speeds.vxMetersPerSecond);
         m_rightMotor.set(speeds.vxMetersPerSecond);
     }
 
-    public Pose2d getPose() {
+    public Pose2d getPose() { // Get pose from odometry
         return m_odometry.getPoseMeters();
     }
 
-    public void resetPose(Pose2d pose) {
+    public void resetPose(Pose2d pose) { // Resets your odometry
         resetEncoders();
         m_odometry.resetPosition(
             getHeading(),
@@ -149,26 +150,26 @@ public class Drivetrain extends SubsystemBase {
         );
     }
 
-    public Rotation2d getHeading() {
+    public Rotation2d getHeading() { // Gets your NavX's heading
         return m_navx.getRotation2d();
     }
 
-    public void resetEncoders() {
+    public void resetEncoders() { // Reset your encoders
         m_leftEncoders.setPosition(0);
         m_rightEncoders.setPosition(0);
     }
 
-    public void resetGyro() {
+    public void resetGyro() { // Resets your robot heading 
         m_navx.reset();
     }
 
-    public ChassisSpeeds getChassisSpeeds() {
+    public ChassisSpeeds getChassisSpeeds() { // Get Chassis velocity
         double leftWheelSpeed = m_leftEncoders.getVelocity();
         double rightWheelSpeed = m_rightEncoders.getVelocity();
 
-        double angularVelocity = (rightWheelSpeed - leftWheelSpeed) / Constants.DrivetrainConstants.kDrivetrainWidthMeters;
+        double angularVelocity = (rightWheelSpeed - leftWheelSpeed) / Constants.DrivetrainConstants.kDrivetrainWidthMeters; // Get your angular velocity of your robot
 
-        return new ChassisSpeeds(
+        return new ChassisSpeeds( // Creates a new ChassisSpeeds from your robots velocities.
             (leftWheelSpeed + rightWheelSpeed) / 2.0,
             0.0,
             angularVelocity
