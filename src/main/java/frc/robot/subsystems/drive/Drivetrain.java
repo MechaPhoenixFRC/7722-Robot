@@ -1,5 +1,6 @@
-package frc.robot.subsystems;
+package frc.robot.subsystems.drive;
 
+// import java.lang.Thread;
 import java.util.Optional;
 import java.util.function.BooleanSupplier;
 import java.util.function.DoubleSupplier;
@@ -24,12 +25,20 @@ import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj.AddressableLED;
+import edu.wpi.first.wpilibj.AddressableLEDBuffer;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+
 import frc.robot.Constants;
 import frc.robot.Constants.DrivetrainConstants;
 import frc.robot.Constants.IOConstants;
 
 public class Drivetrain extends SubsystemBase {
+
+    
+    private  AddressableLED ledStrip;
+    private  AddressableLEDBuffer ledBuffer;
+
     private final CANSparkMax m_leftMotor;
     private final CANSparkMax m_leftMotorFollower;
 
@@ -48,6 +57,15 @@ public class Drivetrain extends SubsystemBase {
     private final DifferentialDriveOdometry m_odometry;
 
     public Drivetrain() {
+
+        ledStrip = new AddressableLED(0);
+        ledStrip.setLength(Constants.IOConstants.StripLEDLength);
+        ledBuffer = new AddressableLEDBuffer(30);
+        ledStrip.setData(ledBuffer);
+        ledStrip.start();
+
+     
+
         m_leftMotor = new CANSparkMax(DrivetrainConstants.kLMotorFrontCanId, MotorType.kBrushless);
         m_leftMotorFollower = new CANSparkMax(DrivetrainConstants.kLMotorRearCanId, MotorType.kBrushless);
         m_leftMotorFollower.follow(m_leftMotor);
@@ -71,10 +89,13 @@ public class Drivetrain extends SubsystemBase {
         m_rightMotorFollower.burnFlash();
 
         m_rightEncoders = m_rightMotor.getEncoder();
+
+        // ---------------------------------------------- \\
+        // Set's the Strip to Yellow to let us know it works.
+        setLEDsYellow();
       
 
         m_driveSlewLimiter = new SlewRateLimiter(0.5);
-
         m_robotDrive = new DifferentialDrive(m_leftMotor, m_rightMotor);
         m_robotDrive.setSafetyEnabled(false); // If you dont do this your robot will disable after a while of not sending the motors commands
 
@@ -149,6 +170,16 @@ public class Drivetrain extends SubsystemBase {
             pose
         );
     }
+
+       private void setLEDsYellow() {
+            for (int i = 0; i < ledBuffer.getLength(); i++) {
+                int redValue = 255;
+                int greenValue = 251;
+                int blueValue = 0;
+                ledBuffer.setRGB(i, redValue, greenValue, blueValue);
+            }
+            ledStrip.setData(ledBuffer);
+        }
 
     public Rotation2d getHeading() { // Gets your NavX's heading
         return m_navx.getRotation2d();
