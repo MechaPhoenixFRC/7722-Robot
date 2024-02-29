@@ -27,6 +27,8 @@ public final class Constants {
     public static final int kAWheelDriverCanId = 9;
 
     // public static final int FireButton = 0;
+
+    public static final int ShootTimePower = 0.30;
   }
 
 
