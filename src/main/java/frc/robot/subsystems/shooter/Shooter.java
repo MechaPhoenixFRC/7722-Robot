@@ -52,7 +52,7 @@ public class Shooter extends SubsystemBase {
             kA_WheelDriver_m.set(VictorSPXControlMode.PercentOutput, 0);
         }
        else {
-        kA_WheelDriver_m.set(VictorSPXControlMode.PercentOutput, 0.30);
+        kA_WheelDriver_m.set(VictorSPXControlMode.PercentOutput, ShooterConstants.ShootTimePower);
        }
 
        if(rightTrigger.negate() != null){
