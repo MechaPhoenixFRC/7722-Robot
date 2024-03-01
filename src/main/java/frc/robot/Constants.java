@@ -30,6 +30,9 @@ public final class Constants {
     public static final int kaSholderCanId = 98;
 
     // public static final int FireButton = 0;
+
+    public static final double RevShootTimePower = 0.30;
+    public static final double ShootTimePower = 0.27;
   }
 
 

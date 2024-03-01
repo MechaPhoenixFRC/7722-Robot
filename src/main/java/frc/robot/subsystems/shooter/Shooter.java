@@ -50,13 +50,13 @@ public class Shooter extends SubsystemBase {
             kA_WheelDriver_m.set(VictorSPXControlMode.PercentOutput, 0);
         }
        else {
-        kA_WheelDriver_m.set(VictorSPXControlMode.PercentOutput, 0.30);
+        kA_WheelDriver_m.set(VictorSPXControlMode.PercentOutput, ShooterConstants.RevShootTimePower);
        }
 
        if(rightTrigger.negate() != null){  // If Left trigger = Negitive set motor to 0 but if true send motor 30%
 kA_BeltDriver_m.set(VictorSPXControlMode.PercentOutput, 0);
        } else{ 
-kA_BeltDriver_m.set(VictorSPXControlMode.PercentOutput, 0.27);
+kA_BeltDriver_m.set(VictorSPXControlMode.PercentOutput, ShooterConstants.ShootTimePower);
 
        }
     return null; 
