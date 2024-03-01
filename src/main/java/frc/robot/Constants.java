@@ -25,6 +25,9 @@ public final class Constants {
 
     public static final int kABeltDriverCanId = 8;
     public static final int kAWheelDriverCanId = 9;
+    // Add the Real CAN Id
+    public static final int kaElbowCanId = 99;
+    public static final int kaSholderCanId = 98;
 
     // public static final int FireButton = 0;
   }

@@ -24,12 +24,14 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 
 public class Intake extends SubsystemBase {
+   // VictorSPX Define
     private VictorSPX kA_BeltDriver_m;
     private VictorSPX kA_WheelDriver_m;
    
 
 
     public Intake() {
+        // Making the Motors in Code
             kA_BeltDriver_m = new VictorSPX(Constants.ShooterConstants.kABeltDriverCanId);
             kA_WheelDriver_m = new VictorSPX(Constants.ShooterConstants.kAWheelDriverCanId);
 
@@ -37,7 +39,7 @@ public class Intake extends SubsystemBase {
     }
 
     public Command intaker(Trigger xTrigger){
-
+// If X button press make both motors spin backwords to intake
 kA_BeltDriver_m.set(VictorSPXControlMode.PercentOutput, -0.40);
 kA_WheelDriver_m.set(VictorSPXControlMode.PercentOutput, -0.40);
 return null;

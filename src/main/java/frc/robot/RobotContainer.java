@@ -14,11 +14,13 @@ import frc.robot.Constants.IOConstants;
 import frc.robot.subsystems.drive.Drivetrain;
 import frc.robot.subsystems.shooter.Shooter;
 import frc.robot.subsystems.intake.Intake;
+import frc.robot.subsystems.shooter.ShooterPivot;
 
 public class RobotContainer {
   private final Drivetrain m_drivetrain;
   private final Shooter a_shooter;
   private final Intake a_intake;
+  private final ShooterPivot s_piviot;
 
   private final SendableChooser<Command> m_autoChooser; // Essntially a dropdown that can be sent to your dashboard
 
@@ -27,6 +29,7 @@ public class RobotContainer {
     m_drivetrain = new Drivetrain(); // Create a new Drivetrain
     a_shooter = new Shooter();
     a_intake = new Intake();
+     s_piviot = new ShooterPivot();
 
     m_autoChooser = AutoBuilder.buildAutoChooser(); // Gets the AutoBuilder that was created in Drivetrain.java
     SmartDashboard.putData("Auto Chooser", m_autoChooser); // Puts the SendableChooser for autos onto SmartDashboard (can be changed)
@@ -45,13 +48,19 @@ public class RobotContainer {
       )
     );
      a_shooter.setDefaultCommand(
-    a_shooter.shoottime(
+    a_shooter.LightingMcQueenJr(
     m_driverController.leftTrigger(),
     m_driverController.rightTrigger()
    )
   );
 a_intake.setDefaultCommand(
   a_intake.intaker(
+  
+m_driverController.x()
+  )
+);
+s_piviot.setDefaultCommand(
+  s_piviot.InfinityandBeyond(
   
 m_driverController.x()
   )
