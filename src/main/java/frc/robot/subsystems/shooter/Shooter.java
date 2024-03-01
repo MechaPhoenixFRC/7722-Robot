@@ -45,7 +45,7 @@ public class Shooter extends SubsystemBase {
 // Command To Fire/Shoot
     public Command LightingMcQueenJr(Trigger leftTrigger, Trigger rightTrigger) {
         // TODO Auto-generated method stub
-
+       // kA_WheelDriver_m.set(VictorSPXControlMode.PercentOutput, leftTrigger.negate() != null ? 0 : ShooterConstants.RevShootTimePower);
         if(leftTrigger.negate() != null){ // If Left trigger = Negitive set motor to 0 but if true send motor 30%
             kA_WheelDriver_m.set(VictorSPXControlMode.PercentOutput, 0);
         }
