@@ -206,4 +206,9 @@ public class Drivetrain extends SubsystemBase {
             angularVelocity
         );
     }
+
+    public static void m_robotDrive(double d, double e) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'm_robotDrive'");
+    }
 }
