@@ -4,6 +4,11 @@
 
 package frc.robot;
 
+import com.ctre.phoenix.motorcontrol.TalonSRXControlMode;
+import com.ctre.phoenix.motorcontrol.VictorSPXControlMode;
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import com.ctre.phoenix.motorcontrol.can.VictorSPX;
+
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -18,13 +23,15 @@ public class Robot extends TimedRobot {
   private final Timer m_timer = new Timer();
   private Command m_autonomousCommand;
   private RobotContainer m_robotContainer;
+      private TalonSRX shooterMotor = new TalonSRX(Constants.ShooterConstants.kAWheelDriverCanId);
+    private VictorSPX intakeMotor = new VictorSPX(Constants.ShooterConstants.kIntakeMotor);
   //private final Drivetrain drivetrain;
 
   /*
    * Autonomous selection options.
    */
   private static final String kNothingAuto = "do nothing";
-  private static final String kDrive = "drive";
+  private static final String shootSpeaker = "Speaker Score & Sit";
   private String m_autoSelected;
   private final SendableChooser<String> m_chooser = new SendableChooser<>();
 
@@ -36,7 +43,7 @@ public class Robot extends TimedRobot {
     // Robot go Boom!!!
 
     m_chooser.setDefaultOption("do nothing", kNothingAuto);
-    m_chooser.addOption("drive", kDrive);
+    m_chooser.addOption("Speaker Score & Sit", shootSpeaker);
     SmartDashboard.putData("Auto choices", m_chooser);
   }
 
@@ -68,8 +75,9 @@ public class Robot extends TimedRobot {
     //  m_autonomousCommand.schedule();
    // }
 
-  if(m_autoSelected == kDrive) {
-      // AAAAA 
+  if(m_autoSelected == shootSpeaker) {
+      shooterMotor.set(TalonSRXControlMode.PercentOutput, 0.8);
+      intakeMotor.set(VictorSPXControlMode.PercentOutput, 0.4);
    }
    else if(m_autoSelected == kNothingAuto)
    {
