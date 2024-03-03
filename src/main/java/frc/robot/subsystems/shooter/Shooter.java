@@ -53,7 +53,7 @@ public class Shooter extends SubsystemBase {
     }
 
     /**Runs the intake backwards while the command is active. Stops the intake when the command ends. */
-    public Command reverseIntake() {
+    public Command Babyburbing() {
                 return Commands.startEnd(
             () -> {intakeMotor.set(ControlMode.PercentOutput, kIntakeReverseSpeed);},
             () -> {intakeMotor.set(ControlMode.PercentOutput, 0);}, 

@@ -42,7 +42,7 @@ SmartDashboard.putData("Drive", drivetrain);
       ));
 
     m_driverController.x().whileTrue(shooter.runIntake());
-    m_driverController.leftTrigger().whileTrue(shooter.shoot(() -> m_driverController.rightTrigger().getAsBoolean()));
+    m_driverController.leftTrigger().whileTrue(shooter.LightingMcQueenJR(() -> m_driverController.rightTrigger().getAsBoolean()));
   }
 
   public Command getAutonomousCommand() {
