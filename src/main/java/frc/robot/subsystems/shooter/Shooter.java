@@ -5,7 +5,7 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import java.util.function.BooleanSupplier;
-
+import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
@@ -27,7 +27,7 @@ public class Shooter extends SubsystemBase {
     }
   
     /**Command To shoot. */
-    public Command shoot(BooleanSupplier shootButton) {
+    public Command LightingMcQueenJR(BooleanSupplier shootButton) {
         return Commands.runEnd(() -> {
             shooterMotor.set(ControlMode.PercentOutput, kShooterSpeed);
             if(shootButton.getAsBoolean()) {

@@ -9,6 +9,9 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.Constants.IOConstants;
 import frc.robot.subsystems.drive.Drivetrain;
 import frc.robot.subsystems.shooter.Shooter;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class RobotContainer {
   private final Drivetrain drivetrain;
@@ -20,6 +23,11 @@ public class RobotContainer {
     shooter = new Shooter();
     //pivot
     //climb
+// ShuffleBord Jumble
+//Shuffleboard.putData("Driving Stuff", drivetrain);
+SmartDashboard.putData("Drive", drivetrain);
+
+
 
     m_driverController = new CommandXboxController(IOConstants.kDriverControllerPort); // Creates new controller
 
