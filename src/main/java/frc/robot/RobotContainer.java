@@ -24,8 +24,8 @@ public class RobotContainer {
     //pivot
     //climb
 // ShuffleBord Jumble
-//Shuffleboard.putData("Driving Stuff", drivetrain);
 SmartDashboard.putData("Drive",drivetrain);
+
 
 
     m_driverController = new CommandXboxController(IOConstants.kDriverControllerPort); // Creates new controller
