@@ -87,7 +87,6 @@ public class Robot extends TimedRobot {
   if(m_autoSelected == shootSpeaker) {
      piviot.AutoPiviot();
     m_timer.start();
-   // piviot.set(VictorSPXControlMode.PercentOutput, 1);
     shooterMotor.set(ControlMode.PercentOutput, 0.8);
     m_timer.delay(0.3);
       shooterMotor.set(ControlMode.PercentOutput, 0.8);
@@ -98,18 +97,21 @@ public class Robot extends TimedRobot {
       james_drive.teleopDrive(0,0);
       m_timer.stop();
    }
-   else if(m_autoSelected == kNothingAuto){
+   else if(m_autoSelected == kNothingAuto){ // This Auto will drive backwords for 2 Secs and then stop and give a mobility Bonus (+2 Points)
 m_timer.start();
-     james_drive.teleopDrive(0.50,0.59);
+     james_drive.teleopDrive(-0.50,-0.50);
      m_timer.delay(2);  
      james_drive.teleopDrive(0,0);
      double elapsedTime = m_timer.get(); // Get the elapsed time
      SmartDashboard.putNumber("Auto Movement Time", elapsedTime);
      m_timer.stop();
-   } else if(m_autoSelected == MaxrpmShoot){
+   } else if(m_autoSelected == MaxrpmShoot){ // DO NOT RUN AT COMP THIS IS ONLY FOR TESTING
 m_timer.start();
 shooterMotor.set(ControlMode.PercentOutput, 1);
 SmartDashboard.putNumber("RPM (Shooter)",rpm);
+m_timer.delay(30);
+shooterMotor.set(ControlMode.PercentOutput, 0);
+m_timer.stop();
    }
   }
 
