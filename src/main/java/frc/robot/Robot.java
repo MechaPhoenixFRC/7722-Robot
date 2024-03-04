@@ -16,6 +16,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.subsystems.LED.PhoenixLED;
 import frc.robot.subsystems.drive.Drivetrain;
 import frc.robot.subsystems.shooter.ShooterPiviot;
 import edu.wpi.first.wpilibj.Timer;
@@ -28,6 +29,7 @@ public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
   private RobotContainer m_robotContainer;
   private Drivetrain james_drive;
+  private PhoenixLED led;
   private ShooterPiviot piviot;
       private TalonSRX shooterMotor = new TalonSRX(Constants.ShooterConstants.kAWheelDriverCanId);
     private VictorSPX intakeMotor = new VictorSPX(Constants.ShooterConstants.kIntakeMotor);
@@ -64,7 +66,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void disabledInit() {
-   
+   led.DisableLED();
   }
 
   @Override
@@ -92,14 +94,14 @@ public class Robot extends TimedRobot {
       shooterMotor.set(ControlMode.PercentOutput, 0.8);
       intakeMotor.set(ControlMode.PercentOutput, 0.4);
       m_timer.delay(2);
-      james_drive.teleopDrive(-0.50,-0.50);
+      james_drive.teleopDrive(-0.51,-0.51);
       m_timer.delay(1.5);
       james_drive.teleopDrive(0,0);
       m_timer.stop();
    }
    else if(m_autoSelected == kNothingAuto){ // This Auto will drive backwords for 2 Secs and then stop and give a mobility Bonus (+2 Points)
-m_timer.start();
-     james_drive.teleopDrive(-0.50,-0.50);
+     m_timer.start();
+     james_drive.teleopDrive(-0.51,-0.51);
      m_timer.delay(2);  
      james_drive.teleopDrive(0,0);
      double elapsedTime = m_timer.get(); // Get the elapsed time

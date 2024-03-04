@@ -37,38 +37,37 @@ ka_Shoulder_Motor = new VictorSPX(Constants.ShooterConstants.kaElbowCanId);
 public Command AutoPiviot(){
     somethingIsSet = true;
     m_Timer.start();
-   ka_Elbow_Motor.set(ControlMode.PercentOutput, 1);
-   m_Timer.delay(0.33);
-   ka_Elbow_Motor.set(ControlMode.PercentOutput, 0);
-     m_Timer.delay(7);
-     ka_Elbow_Motor.set(ControlMode.PercentOutput, -1);
-     m_Timer.delay(0.22);
-ka_Elbow_Motor.set(ControlMode.PercentOutput, 0);
-m_Timer.stop();
-  somethingIsSet = false;
-return null;
-}
-public Command PiviotUp(){
-          somethingIsSet = true;
-        m_Timer.start();
-        ka_Elbow_Motor.set(ControlMode.PercentOutput, 1);
-        m_Timer.delay(0.33);
-            ka_Elbow_Motor.set(ControlMode.PercentOutput, 0);
-            m_Timer.stop();
-        
-
-return null;
-    
-}
-public Command PiviotDown(){
-    somethingIsSet = true;
-    m_Timer.start();
+    ka_Elbow_Motor.set(ControlMode.PercentOutput, 1);
+    m_Timer.delay(0.33);
+    ka_Elbow_Motor.set(ControlMode.PercentOutput, 0);
+    m_Timer.delay(7);
     ka_Elbow_Motor.set(ControlMode.PercentOutput, -1);
-    m_Timer.delay(0.32);
-ka_Elbow_Motor.set(ControlMode.PercentOutput, 0);
-somethingIsSet = false;
-m_Timer.stop();
-return null;
+    m_Timer.delay(0.22);
+    ka_Elbow_Motor.set(ControlMode.PercentOutput, 0);
+    m_Timer.stop();
+    somethingIsSet = false;
+    return null;
+}
+
+public Command PiviotUp(){
+  somethingIsSet = true;
+  m_Timer.start();
+  ka_Elbow_Motor.set(ControlMode.PercentOutput, 1);
+  m_Timer.delay(0.33);
+  ka_Elbow_Motor.set(ControlMode.PercentOutput, 0);
+  m_Timer.stop();
+  return null;  
+}
+
+public Command PiviotDown(){
+  somethingIsSet = true;
+  m_Timer.start();
+  ka_Elbow_Motor.set(ControlMode.PercentOutput, -1);
+  m_Timer.delay(0.32);
+  ka_Elbow_Motor.set(ControlMode.PercentOutput, 0);
+  somethingIsSet = false;
+  m_Timer.stop();
+  return null;
 }
 
 }
