@@ -24,6 +24,7 @@ public class Drivetrain extends SubsystemBase {
     private final CANSparkMax m_rightMotorFollower;
 
     private final DifferentialDrive m_robotDrive;
+    public Object teleopDrive;
 
     public Drivetrain() {
         m_leftMotor = new CANSparkMax(DrivetrainConstants.kLMotorFrontCanId, MotorType.kBrushless);
@@ -59,5 +60,10 @@ public class Drivetrain extends SubsystemBase {
             double zRotation = MathUtil.applyDeadband(rotation.getAsDouble(), Constants.IOConstants.kDriverDeadband); // adds a area on your joystick that's "dead" or ignored
             m_robotDrive.arcadeDrive(-xSpeed, zRotation);
         });
+    }
+
+    public void teleopDrive(double d, double e) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'teleopDrive'");
     }
 }

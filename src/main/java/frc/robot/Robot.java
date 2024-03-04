@@ -9,6 +9,7 @@ import com.ctre.phoenix.motorcontrol.VictorSPXControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
+import edu.wpi.first.util.sendable.Sendable;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -17,12 +18,14 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.subsystems.drive.Drivetrain;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
-import frc.robot.subsystems.drive.Drivetrain;
+
+
 
 public class Robot extends TimedRobot {
   private final Timer m_timer = new Timer();
   private Command m_autonomousCommand;
   private RobotContainer m_robotContainer;
+  private Drivetrain james_drive;
       private TalonSRX shooterMotor = new TalonSRX(Constants.ShooterConstants.kAWheelDriverCanId);
     private VictorSPX intakeMotor = new VictorSPX(Constants.ShooterConstants.kIntakeMotor);
   //private final Drivetrain drivetrain;
@@ -30,7 +33,7 @@ public class Robot extends TimedRobot {
   /*
    * Autonomous selection options.
    */
-  private static final String kNothingAuto = "do nothing";
+  private static final String kNothingAuto = "Get Mobility";
   private static final String shootSpeaker = "Speaker Score & Sit";
   private String m_autoSelected;
   private final SendableChooser<String> m_chooser = new SendableChooser<>();
@@ -42,7 +45,7 @@ public class Robot extends TimedRobot {
     m_robotContainer = new RobotContainer();
     // Robot go Boom!!!
 
-    m_chooser.setDefaultOption("do nothing", kNothingAuto);
+    m_chooser.setDefaultOption("Get Mobility", kNothingAuto);
     m_chooser.addOption("Speaker Score & Sit", shootSpeaker);
     SmartDashboard.putData("Auto choices", m_chooser);
   }
@@ -79,9 +82,14 @@ public class Robot extends TimedRobot {
       shooterMotor.set(TalonSRXControlMode.PercentOutput, 0.8);
       intakeMotor.set(VictorSPXControlMode.PercentOutput, 0.4);
    }
-   else if(m_autoSelected == kNothingAuto)
-   {
- // I was your dad and got the milk                             
+   else if(m_autoSelected == kNothingAuto){
+m_timer.start();
+     james_drive.teleopDrive(0.50,0.59);
+     m_timer.delay(2);  
+     james_drive.teleopDrive(0,0);
+     double elapsedTime = m_timer.get(); // Get the elapsed time
+     SmartDashboard.putNumber("Auto Movement Time", elapsedTime);
+     m_timer.stop();
    }
   }
 

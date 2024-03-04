@@ -1,0 +1,43 @@
+package frc.robot.commands;
+
+import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.subsystems.drive.Drivetrain;
+import edu.wpi.first.wpilibj.Timer;
+
+public class auto1 extends CommandBase {
+
+    private static final double MOTOR_REV_TIME = 3.0; // Motor rev time in seconds
+    private static final double DRIVE_TIME = 3.0; // Drive time in seconds
+    private static final double DRIVE_SPEED = -0.5; // Adjust as needed, -1 for full reverse, 1 for full forward
+    private final Drivetrain james;
+    private boolean isFinished = false;
+
+    public void Auto1() {
+        requires(james.teleopDrive);// Assuming driveTrain is your subsystem class
+    }
+
+    private void requires(Object teleopDrive) {
+        // TODO Auto-generated method stub
+   
+    }
+
+    @Override
+    public void initialize() {
+        Timer.delay(MOTOR_REV_TIME);
+    }
+
+    @Override
+    public void execute() {
+        if (!isFinished) {
+            james.teleopDrive(0.5, 0.5);
+            Timer.delay(DRIVE_TIME);
+            james.teleopDrive(0, 0); // Stop the motors after driving for DRIVE_TIME
+            isFinished = true;
+        }
+    }
+
+    @Override
+    public boolean isFinished() {
+        return isFinished;
+    }
+}
