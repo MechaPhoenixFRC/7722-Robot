@@ -2,6 +2,7 @@ package frc.robot.subsystems.shooter;
 
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.Timer;
 import frc.robot.Constants;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -11,7 +12,7 @@ public class ShooterPivot extends SubsystemBase{
 private static final int Encoder_Channel1 = 0;
 private static final int Encoder_Channel2 = 1;
 private static final double Encoder_DistencePerPulse = 360.0 / 1024.0;
-
+private final Timer piviot_timer;
 // Motor Define
     private VictorSPX ka_Shoulder_Motor;
     private VictorSPX ka_Elbow_Motor;

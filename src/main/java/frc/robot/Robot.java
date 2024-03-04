@@ -4,6 +4,7 @@
 
 package frc.robot;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.TalonSRXControlMode;
 import com.ctre.phoenix.motorcontrol.VictorSPXControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
@@ -16,6 +17,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.subsystems.drive.Drivetrain;
+import frc.robot.subsystems.shooter.ShooterPiviot;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 
@@ -26,15 +28,18 @@ public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
   private RobotContainer m_robotContainer;
   private Drivetrain james_drive;
+  private ShooterPiviot piviot;
       private TalonSRX shooterMotor = new TalonSRX(Constants.ShooterConstants.kAWheelDriverCanId);
     private VictorSPX intakeMotor = new VictorSPX(Constants.ShooterConstants.kIntakeMotor);
+    double rpm = shooterMotor.getSelectedSensorVelocity();
   //private final Drivetrain drivetrain;
 
   /*
    * Autonomous selection options.
    */
   private static final String kNothingAuto = "Get Mobility";
-  private static final String shootSpeaker = "Speaker Score & Sit";
+  private static final String shootSpeaker = "Speaker Score & Mobility";
+   private static final String MaxrpmShoot = "Test max RPM";
   private String m_autoSelected;
   private final SendableChooser<String> m_chooser = new SendableChooser<>();
 
@@ -46,7 +51,8 @@ public class Robot extends TimedRobot {
     // Robot go Boom!!!
 
     m_chooser.setDefaultOption("Get Mobility", kNothingAuto);
-    m_chooser.addOption("Speaker Score & Sit", shootSpeaker);
+    m_chooser.addOption("Speaker Score & Mobility", shootSpeaker);
+     m_chooser.addOption("Max RPM Shoot (Test)", MaxrpmShoot);
     SmartDashboard.putData("Auto choices", m_chooser);
   }
 
@@ -79,8 +85,18 @@ public class Robot extends TimedRobot {
    // }
 
   if(m_autoSelected == shootSpeaker) {
-      shooterMotor.set(TalonSRXControlMode.PercentOutput, 0.8);
-      intakeMotor.set(VictorSPXControlMode.PercentOutput, 0.4);
+     piviot.AutoPiviot();
+    m_timer.start();
+   // piviot.set(VictorSPXControlMode.PercentOutput, 1);
+    shooterMotor.set(ControlMode.PercentOutput, 0.8);
+    m_timer.delay(0.3);
+      shooterMotor.set(ControlMode.PercentOutput, 0.8);
+      intakeMotor.set(ControlMode.PercentOutput, 0.4);
+      m_timer.delay(2);
+      james_drive.teleopDrive(-0.50,-0.50);
+      m_timer.delay(1.5);
+      james_drive.teleopDrive(0,0);
+      m_timer.stop();
    }
    else if(m_autoSelected == kNothingAuto){
 m_timer.start();
@@ -90,6 +106,10 @@ m_timer.start();
      double elapsedTime = m_timer.get(); // Get the elapsed time
      SmartDashboard.putNumber("Auto Movement Time", elapsedTime);
      m_timer.stop();
+   } else if(m_autoSelected == MaxrpmShoot){
+m_timer.start();
+shooterMotor.set(ControlMode.PercentOutput, 1);
+SmartDashboard.putNumber("RPM (Shooter)",rpm);
    }
   }
 
