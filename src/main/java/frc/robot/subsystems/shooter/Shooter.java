@@ -33,9 +33,9 @@ public class Shooter extends SubsystemBase {
     public void repeatLED() {
         while (true) {
           led.ShootNote();
-           m_Timer.delay(0.3);
+           m_Timer.delay(0.7);
            led.LEDOff();
-           m_Timer.delay(0.3);   
+           m_Timer.delay(0.7);   
     }
 }
     /**Command To shoot. */
