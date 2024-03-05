@@ -27,9 +27,10 @@ public class PhoenixLED extends SubsystemBase {
 
       // ---------------------------------------------- \\
         // Set's the Strip to Yellow to let us know it works.
-        setLEDsYellow();
+        setGreenLED();
     }
 
+    
     public void DisableLED(){
          for (int i = 0; i < ledBuffer.getLength(); i++) {
             int redValue = 155;
@@ -39,6 +40,38 @@ public class PhoenixLED extends SubsystemBase {
         }
         ledStrip.setData(ledBuffer); 
     }
+     public void ShootNote(){
+         for (int i = 0; i < ledBuffer.getLength(); i++) {
+            int redValue = 214;
+            int greenValue = 70;
+            int blueValue = 26;
+            ledBuffer.setRGB(i, redValue, greenValue, blueValue);
+        }
+        ledStrip.setData(ledBuffer); 
+    }
+
+
+     public void LEDOff(){
+         for (int i = 0; i < ledBuffer.getLength(); i++) {
+            int redValue = 0;
+            int greenValue = 0;
+            int blueValue = 0;
+            ledBuffer.setRGB(i, redValue, greenValue, blueValue);
+        }
+        ledStrip.setData(ledBuffer); 
+    }
+
+
+     public void TeleLED(){
+         for (int i = 0; i < ledBuffer.getLength(); i++) {
+            int redValue = 9;
+            int greenValue = 118;
+            int blueValue = 106;
+            ledBuffer.setRGB(i, redValue, greenValue, blueValue);
+        }
+        ledStrip.setData(ledBuffer); 
+    }
+
 
       public void AutoLED(){
          for (int i = 0; i < ledBuffer.getLength(); i++) {
@@ -60,6 +93,14 @@ public class PhoenixLED extends SubsystemBase {
         ledStrip.setData(ledBuffer);
     }
 
-     
+     public void setGreenLED() {
+        for (int i = 0; i < ledBuffer.getLength(); i++) {
+            int redValue = 0;
+            int greenValue = 255;
+            int blueValue = 0;
+            ledBuffer.setRGB(i, redValue, greenValue, blueValue);
+        }
+        ledStrip.setData(ledBuffer);
+    }   
 
 }

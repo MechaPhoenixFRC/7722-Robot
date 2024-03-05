@@ -1,5 +1,6 @@
 package frc.robot.subsystems.shooter;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -12,11 +13,14 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
 import frc.robot.Constants;
+import frc.robot.subsystems.LED.PhoenixLED;
 
 public class Shooter extends SubsystemBase {
     private final double kintakeSpeed = -0.40;
     private final double kIntakeReverseSpeed = 0.40;
     private final double kShooterSpeed = 0.8;
+      private PhoenixLED led;
+          private final Timer m_Timer = new Timer();
 
     private TalonSRX shooterMotor = new TalonSRX(Constants.ShooterConstants.kAWheelDriverCanId);
     private VictorSPX intakeMotor = new VictorSPX(Constants.ShooterConstants.kIntakeMotor);
@@ -26,10 +30,21 @@ public class Shooter extends SubsystemBase {
         intakeMotor.setNeutralMode(NeutralMode.Brake);
     }
   
+    public void repeatLED() {
+        while (true) {
+          led.ShootNote();
+           m_Timer.delay(0.3);
+           led.LEDOff();
+           m_Timer.delay(0.3);   
+    }
+}
     /**Command To shoot. */
     public Command LightingMcQueenJR(BooleanSupplier shootButton) {
         return Commands.runEnd(() -> {
+         repeatLED();
             shooterMotor.set(ControlMode.PercentOutput, kShooterSpeed);
+
+
             if(shootButton.getAsBoolean()) {
                 intakeMotor.set(ControlMode.PercentOutput, kintakeSpeed);
             }
@@ -47,7 +62,7 @@ public class Shooter extends SubsystemBase {
     /**Runs the intake while the command is active. Stops the intake when the command ends. */
     public Command runIntake() {
         return Commands.startEnd(
-            () -> {intakeMotor.set(ControlMode.PercentOutput, kintakeSpeed);},
+            () -> {intakeMotor.set(ControlMode.PercentOutput, kintakeSpeed);  repeatLED();},
             () -> {intakeMotor.set(ControlMode.PercentOutput, 0);}, 
             this);
     }
@@ -55,7 +70,7 @@ public class Shooter extends SubsystemBase {
     /**Runs the intake backwards while the command is active. Stops the intake when the command ends. */
     public Command Babyburbing() {
                 return Commands.startEnd(
-            () -> {intakeMotor.set(ControlMode.PercentOutput, kIntakeReverseSpeed);},
+            () -> {intakeMotor.set(ControlMode.PercentOutput, kIntakeReverseSpeed);  repeatLED();},
             () -> {intakeMotor.set(ControlMode.PercentOutput, 0);}, 
             this);
     }

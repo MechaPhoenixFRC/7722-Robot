@@ -105,7 +105,7 @@ public class Robot extends TimedRobot {
     // This Auto will drive backwords for 2 Secs and then stop and give a mobility Bonus (+2 Points)
      m_timer.start();
      james_drive.teleopDrive(-0.51,-0.51);
-     m_timer.delay(2);  
+     m_timer.delay(1.2);  
      james_drive.teleopDrive(0,0);
      double elapsedTime = m_timer.get(); // Get the elapsed time
      SmartDashboard.putNumber("Auto Movement Time", elapsedTime);
