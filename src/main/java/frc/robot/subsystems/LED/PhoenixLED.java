@@ -40,6 +40,16 @@ public class PhoenixLED extends SubsystemBase {
         ledStrip.setData(ledBuffer); 
     }
 
+      public void AutoLED(){
+         for (int i = 0; i < ledBuffer.getLength(); i++) {
+            int redValue = 143;
+            int greenValue = 155;
+            int blueValue = 255;
+            ledBuffer.setRGB(i, redValue, greenValue, blueValue);
+        }
+        ledStrip.setData(ledBuffer); 
+    }
+
     public void setLEDsYellow() {
         for (int i = 0; i < ledBuffer.getLength(); i++) {
             int redValue = 255;
@@ -50,5 +60,6 @@ public class PhoenixLED extends SubsystemBase {
         ledStrip.setData(ledBuffer);
     }
 
+     
 
 }
