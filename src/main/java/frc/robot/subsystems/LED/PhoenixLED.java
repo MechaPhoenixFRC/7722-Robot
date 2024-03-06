@@ -27,9 +27,23 @@ public class PhoenixLED extends SubsystemBase {
 
       // ---------------------------------------------- \\
         // Set's the Strip to Yellow to let us know it works.
-        setGreenLED();
+      RobotOn();
     }
 
+    public void RobotOn() {
+          setGreenLED();
+           m_Timer.delay(0.7);
+           LEDOff();
+           m_Timer.delay(0.7);  
+              setGreenLED();
+           m_Timer.delay(0.7);
+           LEDOff();
+           m_Timer.delay(0.7); 
+              setGreenLED();
+           m_Timer.delay(0.7);
+           LEDOff();
+           m_Timer.delay(0.7);  
+    }
     
     public void DisableLED(){
          for (int i = 0; i < ledBuffer.getLength(); i++) {
