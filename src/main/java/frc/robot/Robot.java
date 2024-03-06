@@ -66,6 +66,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void disabledInit() {
+    m_timer.delay(6);
    led.DisableLED();
   }
 

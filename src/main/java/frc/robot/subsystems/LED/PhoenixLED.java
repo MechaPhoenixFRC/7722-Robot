@@ -31,18 +31,12 @@ public class PhoenixLED extends SubsystemBase {
     }
 
     public void RobotOn() {
+        m_Timer.start();
           setGreenLED();
            m_Timer.delay(0.7);
            LEDOff();
            m_Timer.delay(0.7);  
-              setGreenLED();
-           m_Timer.delay(0.7);
-           LEDOff();
-           m_Timer.delay(0.7); 
-              setGreenLED();
-           m_Timer.delay(0.7);
-           LEDOff();
-           m_Timer.delay(0.7);  
+           m_Timer.stop();
     }
     
     public void DisableLED(){
