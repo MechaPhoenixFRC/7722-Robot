@@ -6,7 +6,7 @@ public final class Constants {
 
     public static final double kDriverDeadband = 0.1;
 
-    public static final double kSpeedLimiter = 4;
+    public static final double kSpeedLimiter = 100;
 
     public static final int StripLEDLength = 30; // Plz change this.
   }
@@ -30,6 +30,7 @@ public final class Constants {
     public static final int kaSholderCanId = 98;
 
     // public static final int FireButton = 0;
+    public static final int PiviotMotor = 8;
 
     public static final double RevShootTimePower = 0.30;
     public static final double ShootTimePower = 0.27;
