@@ -62,6 +62,34 @@ public Command PiviotUp(){
   return null;  
 }
 
+public Command UpwardsDog(){
+ return Commands.startEnd(
+        () -> {
+  somethingIsSet = true; // Raise Shuffleboard flag saying it is true 
+  m_Timer.start();
+  piviotMotor.set(ControlMode.PercentOutput, 1);
+  m_Timer.delay(0.33);
+  piviotMotor.set(ControlMode.PercentOutput, 0);
+  m_Timer.stop();},
+        () -> {piviotMotor.set(ControlMode.PercentOutput, 0);}, 
+        this);
+
+}
+
+public Command DownwordsDog(){
+ return Commands.startEnd(
+        () -> {
+  somethingIsSet = false; // Raise Shuffleboard flag saying it is false 
+  m_Timer.start();
+  piviotMotor.set(ControlMode.PercentOutput, -1);
+  m_Timer.delay(0.33);
+  piviotMotor.set(ControlMode.PercentOutput, 0);
+  m_Timer.stop();},
+        () -> {piviotMotor.set(ControlMode.PercentOutput, 0);}, 
+        this);
+
+}
+
 public Command PiviotDown(){
   somethingIsSet = true;
   m_Timer.start();

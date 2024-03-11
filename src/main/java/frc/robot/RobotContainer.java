@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.Constants.IOConstants;
 import frc.robot.subsystems.drive.Drivetrain;
 import frc.robot.subsystems.shooter.Shooter;
+import frc.robot.subsystems.shooter.ShooterPiviot;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -16,11 +17,13 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class RobotContainer {
   private final Drivetrain drivetrain;
   private final Shooter shooter;
+  private final ShooterPiviot piviot;
 
   private final CommandXboxController m_driverController; // A controller object that you can feed a command
   public RobotContainer() {
     drivetrain = new Drivetrain(); // Create a new Drivetrain
     shooter = new Shooter();
+    piviot = new ShooterPiviot();
     //pivot
     //climb
 // ShuffleBord Jumble
@@ -42,6 +45,8 @@ SmartDashboard.putData("Drive",drivetrain);
 
     m_driverController.x().whileTrue(shooter.runIntake());
     m_driverController.leftTrigger().whileTrue(shooter.LightingMcQueenJR(() -> m_driverController.rightTrigger().getAsBoolean()));
+   m_driverController.povLeft().whileTrue(piviot.UpwardsDog());
+   m_driverController.povDownLeft().whileTrue(piviot.DownwordsDog());
   }
 
   public Command getAutonomousCommand() {
